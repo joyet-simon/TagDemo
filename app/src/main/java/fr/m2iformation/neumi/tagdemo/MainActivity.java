@@ -6,12 +6,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements EditTag.OnOutListener {
 
     EditTag etTag;
+    long lastTime = 0l;
+    ConstraintLayout screen;
+    Timer timer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements EditTag.OnOutList
         setContentView(R.layout.activity_main);
         etTag = findViewById(R.id.etTag);
         etTag.setOnOutListener(this);
+        screen = findViewById(R.id.screen);
 
     }
 
@@ -50,13 +58,23 @@ public class MainActivity extends AppCompatActivity implements EditTag.OnOutList
         etTag.savePng(filePath);
     }
 
-
     @Override
     public void onOut(View view) {
         Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (vib.hasVibrator()) {
             vib.vibrate(500);
         }
-
+        screen.setBackgroundColor(Color.RED);
+        Timer timer = new Timer();
+        timer.schedule(new RemindTask(), 750);
     }
+
+    private class RemindTask extends TimerTask {
+        @Override
+        public void run() {
+            screen.setBackgroundColor(0xd7d6d6);
+            timer.cancel();
+        }
+    }
+
 }
