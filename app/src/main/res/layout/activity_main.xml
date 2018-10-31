@@ -27,9 +27,12 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="#fdfdfd"
+        app:bkgColor="0xFFDAFCFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:tagColor="0xff3B705C"
+        app:tagWeight="5" />
 
     <Button
         android:id="@+id/btClear"
@@ -85,5 +88,34 @@
         app:layout_constraintBottom_toBottomOf="@+id/btBleu"
         app:layout_constraintStart_toEndOf="@+id/btBleu"
         app:layout_constraintTop_toTopOf="@+id/btBleu" />
+
+    <Button
+        android:id="@+id/btJpeg"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:onClick="saveJpeg"
+        android:text="JPEG"
+        app:layout_constraintBottom_toBottomOf="@+id/btVert"
+        app:layout_constraintStart_toEndOf="@+id/btVert"
+        app:layout_constraintTop_toTopOf="@+id/btVert" />
+
+    <Button
+        android:id="@+id/btPng"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:onClick="savePng"
+        android:text="PNG"
+        app:layout_constraintBottom_toBottomOf="@+id/btJpeg"
+        app:layout_constraintEnd_toStartOf="@+id/btClear"
+        app:layout_constraintStart_toEndOf="@+id/btJpeg"
+        app:layout_constraintTop_toTopOf="@+id/btJpeg" />
 
 </android.support.constraint.ConstraintLayout>

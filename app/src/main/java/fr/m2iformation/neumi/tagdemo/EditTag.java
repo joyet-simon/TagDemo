@@ -6,10 +6,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.io.FileOutputStream;
 
 public class EditTag extends AppCompatImageView implements View.OnTouchListener {
 
@@ -19,6 +23,9 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
     private Integer bkgColor;
     Paint paint;
     Path path;
+
+
+    private OnOutListener onOutListener;
 
     public EditTag(Context context) {
         super(context);
@@ -37,10 +44,11 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
         tagColor = Color.BLACK;
         setOnTouchListener(this);
         paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
         path = new Path();
+        setTagColor(attrs.getAttributeIntValue("http://schemas.android.com/apk/res-auto", "tagColor", tagColor));
+        setTagWeight(attrs.getAttributeIntValue("http://schemas.android.com/apk/res-auto", "tagWeight", 5));
+        setBkgColor(attrs.getAttributeIntValue("http://schemas.android.com/apk/res-auto", "bkgColor", Color.WHITE));
 
     }
 
@@ -49,7 +57,7 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
     }
 
     public void setTagColor(Integer color) {
-        tagColor = color;
+        this.tagColor = color;
         paint.setColor(tagColor);
         invalidate();
     }
@@ -59,17 +67,23 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
     }
 
     public void setTagWeight(Integer tagWeight) {
-        tagWeight = tagWeight;
+        this.tagWeight = tagWeight;
         paint.setStrokeWidth(tagWeight);
         invalidate();
     }
 
     public Bitmap getFingerTag() {
+        buildDrawingCache();
+        Bitmap bitmap = getDrawingCache();
+//        Bitmap bitmap = ((BitmapDrawable)getDrawable()).getBitmap();
+
+        fingerTag = bitmap;
         return fingerTag;
     }
 
-    public void setFingerTag(Bitmap tag) {
-        fingerTag = fingerTag;
+    public void setFingerTag(Bitmap fingertag) {
+        setImageBitmap(fingerTag);
+        this.fingerTag = fingertag;
     }
 
     public Integer getBkgColor() {
@@ -79,6 +93,11 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
     public void setBkgColor(Integer bkgColor) {
         this.bkgColor = bkgColor;
         setBackgroundColor(bkgColor);
+        invalidate();
+    }
+
+    public void setOnOutListener(OnOutListener onOutListener) {
+        this.onOutListener = onOutListener;
     }
 
     public void clear() {
@@ -86,10 +105,22 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
         invalidate();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void saveJpg(String fichier) {
+        try (FileOutputStream out = new FileOutputStream(fichier)) {
+            getFingerTag().compress(Bitmap.CompressFormat.JPEG, 100, out);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void savePng(String fichier) {
+        try (FileOutputStream out = new FileOutputStream(fichier)) {
+            getFingerTag().compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -100,7 +131,20 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
             path.lineTo(event.getX(), event.getY());
         }
+        if (event.getX() < 2 || event.getY() < 2 || event.getX() > getWidth() - 2 || event.getY() > getHeight() - 2) {
+            if (onOutListener != null) {
+                onOutListener.onOut(v);
+            }
+        }
         invalidate();
         return true;
     }
+
+    public interface OnOutListener {
+        void onOut(View view);
+    }
+
 }
+
+
+
