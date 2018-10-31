@@ -48,13 +48,13 @@ public class MainActivity extends AppCompatActivity implements EditTag.OnOutList
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void saveJpeg(View view) {
-        String filePath = this.getFilesDir().getPath() + "fichier";
+        String filePath = this.getFilesDir().getPath() + "fichier.jpg";
         etTag.saveJpg(filePath);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void savePng(View view) {
-        String filePath = this.getFilesDir().getPath() + "fichier2";
+        String filePath = this.getFilesDir().getPath() + "fichier2.png";
         etTag.savePng(filePath);
     }
 

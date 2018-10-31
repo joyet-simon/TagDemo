@@ -75,8 +75,6 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
     public Bitmap getFingerTag() {
         buildDrawingCache();
         Bitmap bitmap = getDrawingCache();
-//        Bitmap bitmap = ((BitmapDrawable)getDrawable()).getBitmap();
-
         fingerTag = bitmap;
         return fingerTag;
     }
