@@ -36,15 +36,54 @@
         style="@android:style/Widget.Button.Inset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:onClick="clear"
-        android:text="CLEAR"
+        android:text="@string/clear"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTag" />
+
+    <Button
+        android:id="@+id/btRouge"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:onClick="rouge"
+        android:text="@string/r"
+        android:textColor="#ff0000"
+        app:layout_constraintBottom_toBottomOf="@+id/btClear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btClear" />
+
+    <Button
+        android:id="@+id/btBleu"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:onClick="bleu"
+        android:text="@string/b"
+        android:textColor="#0000ff"
+        app:layout_constraintBottom_toBottomOf="@+id/btClear"
+        app:layout_constraintStart_toEndOf="@+id/btRouge"
+        app:layout_constraintTop_toTopOf="@+id/btClear" />
+
+    <Button
+        android:id="@+id/btVert"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:onClick="vert"
+        android:text="@string/v"
+        android:textColor="#00ff00"
+        app:layout_constraintBottom_toBottomOf="@+id/btBleu"
+        app:layout_constraintStart_toEndOf="@+id/btBleu"
+        app:layout_constraintTop_toTopOf="@+id/btBleu" />
 
 </android.support.constraint.ConstraintLayout>

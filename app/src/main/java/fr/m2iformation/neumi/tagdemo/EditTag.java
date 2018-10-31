@@ -13,10 +13,10 @@ import android.view.View;
 
 public class EditTag extends AppCompatImageView implements View.OnTouchListener {
 
-    private Color tagColor;
+    private Integer tagColor;
     private Integer tagWeight;
     private Bitmap fingerTag;
-    private Color bkgColor;
+    private Integer bkgColor;
     Paint paint;
     Path path;
 
@@ -34,21 +34,24 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
 
     public EditTag(Context context, AttributeSet attrs) {
         super(context, attrs);
+        tagColor = Color.BLACK;
         setOnTouchListener(this);
         paint = new Paint();
-        paint.setColor(Color.BLUE);
+        paint.setColor(Color.BLACK);
         paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
         path = new Path();
 
     }
 
-    public Color getTagColor() {
+    public Integer getTagColor() {
         return tagColor;
     }
 
-    public void setTagColor(Color tagColor) {
-        tagColor = tagColor;
+    public void setTagColor(Integer color) {
+        tagColor = color;
+        paint.setColor(tagColor);
+        invalidate();
     }
 
     public int getTagWeight() {
@@ -57,6 +60,8 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
 
     public void setTagWeight(Integer tagWeight) {
         tagWeight = tagWeight;
+        paint.setStrokeWidth(tagWeight);
+        invalidate();
     }
 
     public Bitmap getFingerTag() {
@@ -67,12 +72,13 @@ public class EditTag extends AppCompatImageView implements View.OnTouchListener 
         fingerTag = fingerTag;
     }
 
-    public Color getBkgColor() {
+    public Integer getBkgColor() {
         return bkgColor;
     }
 
-    public void setBkgColor(Color bkgColor) {
+    public void setBkgColor(Integer bkgColor) {
         this.bkgColor = bkgColor;
+        setBackgroundColor(bkgColor);
     }
 
     public void clear() {
